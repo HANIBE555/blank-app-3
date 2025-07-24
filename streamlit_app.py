@@ -1,6 +1,62 @@
 import streamlit as st
+from streamlit_extras.switch_page_button import switch_page  # ← זה חובה
 
-st.title("🎈 My new app")
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
-)
+import base64
+
+# רקע
+def set_background(image_file):
+    with open(image_file, "rb") as f:
+        data = base64.b64encode(f.read()).decode()
+    css = f"""
+    <style>
+    .stApp {{
+        background-image: url("data:image/png;base64,{data}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        direction: rtl;
+    }}
+    .title {{
+        text-align: center;
+        font-size: 60px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }}
+    .subtitle {{
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 30px;
+    }}
+    .stButton>button {{
+        background-color: #f94ca4;
+        color: white;
+        font-size: 18px;
+        padding: 10px 30px;
+        border-radius: 10px;
+        border: none;
+        transition: 0.3s;
+    }}
+    .stButton>button:hover {{
+        background-color: #ff6fbd;
+        transform: scale(1.03);
+    }}
+    </style>
+    """
+    st.markdown(css, unsafe_allow_html=True)
+
+set_background("images/IMG.png")
+
+# כותרות
+st.markdown('<div class="title">שלום רופא יקר 🩺</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">יש לבחור אחת מהאופציות הבאות:</div>', unsafe_allow_html=True)
+
+# פריסה הדוקה יותר (כפתורים קרובים יותר למרכז)
+col1, col2, col3, col4 = st.columns([2, 1, 1, 2])
+
+with col2:
+    if st.button("🔍 חיזוי חזרת מחלה"):
+        st.switch_page("pages/1_חיזוי_חזרת_מחלה.py")
+
+with col3:
+    if st.button("🖼 בדיקת תמונות CT"):
+        st.switch_page("pages/2_בדיקת_CT.py")
