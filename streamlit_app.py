@@ -18,6 +18,7 @@ def set_background(image_file):
     }}
     .title {{
         text-align: center;
+    
         font-size: 60px;
         font-weight: bold;
         margin-bottom: 10px;
